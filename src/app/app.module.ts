@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ModuleRegistry, AllCommunityModules } from '@ag-grid-community/all-modules';
 
 @NgModule({
   declarations: [
@@ -46,4 +47,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    ModuleRegistry.registerModules(AllCommunityModules);
+  }
+ }

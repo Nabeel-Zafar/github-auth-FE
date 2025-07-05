@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GithubDataService } from './github-data.service';
-import { ColDef, GridApi, GridOptions } from 'ag-grid-community';
+import { ColDef, GridApi, GridOptions, GridReadyEvent  } from 'ag-grid-community';
 
 @Component({
   selector: 'app-github-viewer',
@@ -11,8 +11,8 @@ export class GithubViewerComponent implements OnInit {
   integrations = ['GitHub'];
   collections: string[] = [];
   selectedCollection = '';
-  columnDefs: ColDef[] = [];
-  rowData: any[] = [];
+  columnDefs: ColDef[] = [{ field: 'loading', headerName: 'Status' }];
+  rowData: any[] = [{ loading: 'Loading data...' }];
   total = 0;
   page = 1;
   pageSize = 50;
@@ -49,43 +49,72 @@ export class GithubViewerComponent implements OnInit {
     this.githubService.globalSearch(this.search).subscribe(console.log);
   }
 
-  onGridReady(params: any) {
-    this.gridApi = params.api;
-    this.gridApi.sizeColumnsToFit();
-  }
+  // onGridReady(params: any) {
+  //   this.gridApi = params.api;
+  //   this.gridApi.sizeColumnsToFit();
+  // }
 
   onPageChange(page: number) {
     this.page = page;
     this.fetchData();
   }
 
-fetchData() {
-  console.log('📦 Fetching data for collection:', this.selectedCollection);
-  this.githubService.getCollectionData(this.selectedCollection, this.page, this.pageSize)
-    .subscribe(res => {
-      console.log('✅ Data response:', res);
-      console.log('📊 Columns:', this.columnDefs);
-
-      if (res.data.length > 0) {
-  const sample = res.data[0];
-  const flatKeys = Object.keys(sample).filter(k => typeof sample[k] !== 'object');
-  console.log('Flat keys used for columns:', flatKeys);
-
-  this.columnDefs = flatKeys.map(key => ({
-    field: key,
-    filter: true,
-    sortable: true,
-  }));
-
-  this.rowData = res.data;
-} else {
-  this.columnDefs = [];
-  this.rowData = [];
-}
-    }, err => {
-      console.error('❌ Error fetching data:', err);
+  onGridReady(params: GridReadyEvent) {
+    console.log('Grid ready!');
+    this.gridApi = params.api;
+    params.api.sizeColumnsToFit();
+    window.addEventListener('resize', () => {
+      setTimeout(() => params.api.sizeColumnsToFit());
     });
-}
+  }
+  
+
+fetchData() {
+    console.log('📦 Fetching data for collection:', this.selectedCollection);
+    this.githubService.getCollectionData(this.selectedCollection, this.page, this.pageSize)
+      .subscribe(res => {
+        console.log('✅ Data response:', res);
+        console.log('First item structure:', res.data[0]);
+        
+        if (res.data.length > 0) {
+          const sample = res.data[0];
+          const flatKeys = Object.keys(sample).filter(k => typeof sample[k] !== 'object');
+          console.log('Flat keys used for columns:', flatKeys);
+
+          this.columnDefs = flatKeys.map(key => ({
+            field: key,
+            filter: true,
+            sortable: true,
+            resizable: true,
+          }));
+
+          console.log('Generated columnDefs:', this.columnDefs);
+
+          this.rowData = res.data;
+          this.total = res.total || res.data.length;
+          
+          // Updated API methods for AG-Grid v25+
+          setTimeout(() => {
+            if (this.gridApi) {
+              this.gridApi.setGridOption('columnDefs', this.columnDefs);
+              this.gridApi.setGridOption('rowData', this.rowData);
+              this.gridApi.sizeColumnsToFit();
+            }
+          });
+        } else {
+          this.columnDefs = [];
+          this.rowData = [];
+          if (this.gridApi) {
+            this.gridApi.setGridOption('columnDefs', []);
+            this.gridApi.setGridOption('rowData', []);
+          }
+        }
+      }, err => {
+        console.error('❌ Error fetching data:', err);
+      });
+  }
+
+
 
 
 
