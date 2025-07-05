@@ -1,0 +1,48 @@
+<mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
+  <mat-tab label="Integration">
+    <div class="p-4 space-y-4">
+      <div class="flex gap-4 items-center">
+        <mat-form-field appearance="outline">
+          <mat-label>Active Integration</mat-label>
+          <mat-select [value]="'GitHub'">
+            <mat-option *ngFor="let int of integrations" [value]="int">{{ int }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Entity</mat-label>
+          <mat-select [(value)]="selectedCollection" (selectionChange)="onCollectionChange()">
+            <mat-option *ngFor="let col of collections" [value]="col">{{ col }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-1/3" appearance="outline">
+          <mat-label>Global Search</mat-label>
+          <input matInput [(ngModel)]="search" (keyup.enter)="onSearchChange()" />
+        </mat-form-field>
+      </div>
+
+      <!-- <ag-grid-angular style="width: 100%; height: 600px" class="ag-theme-alpine" [gridOptions]="gridOptions"
+        [rowData]="rowData" [columnDefs]="columnDefs" [paginationPageSize]="pageSize" [pagination]="true"
+        (gridReady)="onGridReady($event)">
+      </ag-grid-angular> -->
+
+      <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 500px" [columnDefs]="columnDefs"
+        [rowData]="rowData" [defaultColDef]="{ sortable: true, filter: true }" (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+
+      <mat-paginator
+        [length]="total"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[25, 50, 100]"
+        (page)="onPageChange($event.pageIndex + 1)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Analytics">
+    <div class="p-4 text-center text-lg text-gray-500">
+      Coming Soon: GitHub Insights & Analytics
+    </div>
+  </mat-tab>
+</mat-tab-group>

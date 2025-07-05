@@ -9,10 +9,22 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 
+import { FormsModule } from '@angular/forms';
+import { GithubViewerComponent } from './github/github-viewer.component';
+import { AgGridModule } from 'ag-grid-angular';
+
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 @NgModule({
   declarations: [
     AppComponent,
-    GithubComponent
+    GithubComponent,
+    GithubViewerComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +33,15 @@ import { MatButtonModule } from '@angular/material/button';
     HttpClientModule,
     MatCardModule,
     MatExpansionModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule,
+    AgGridModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatOptionModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
