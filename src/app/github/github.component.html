@@ -1,0 +1,25 @@
+<mat-card *ngIf="!isConnected">
+  <mat-card-title>GitHub Integration</mat-card-title>
+  <mat-card-content>
+    <p>Connect your GitHub account to sync data.</p>
+    <button mat-raised-button color="primary" (click)="connect()">Connect</button>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="isConnected">
+  <mat-card-title>GitHub Connected ✅</mat-card-title>
+  <mat-card-content>
+    <p>Connected at: {{ connectedAt }}</p>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Integration Options</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <button mat-button color="warn" (click)="remove()">Remove Integration</button>
+        <button mat-button color="accent" (click)="reSync()">Re-sync Integration</button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
