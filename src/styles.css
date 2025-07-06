@@ -35,15 +35,6 @@ html, body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* AG Grid Theme Tweaks */
-.ag-theme-alpine {
-  --ag-header-background-color: #e3f2fd;  /* Light blue */
-  --ag-odd-row-background-color: #fafafa;
-  --ag-row-hover-color: #e0f7fa;
-  --ag-font-family: Roboto, sans-serif;
-  --ag-header-foreground-color: #0d47a1;  /* Dark blue text */
-}
-
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .mat-form-field {

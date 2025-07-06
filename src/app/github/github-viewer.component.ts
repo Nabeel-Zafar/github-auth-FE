@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GithubDataService } from './github-data.service';
 import { ColDef, GridApi, GridOptions, GridReadyEvent  } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-github-viewer',

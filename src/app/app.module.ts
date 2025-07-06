@@ -19,7 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ModuleRegistry, AllCommunityModules } from '@ag-grid-community/all-modules';
+// import { ModuleRegistry, AllCommunityModules } from '@ag-grid-community/all-modules';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,6 @@ import { ModuleRegistry, AllCommunityModules } from '@ag-grid-community/all-modu
 })
 export class AppModule {
   constructor() {
-    ModuleRegistry.registerModules(AllCommunityModules);
+    ModuleRegistry.registerModules([AllCommunityModule]);
   }
  }
